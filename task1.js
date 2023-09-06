@@ -1,13 +1,33 @@
-const promise1 = Promise.resolve('first one');
-const promise2 = 53
-const promise3 = new Promise((resolve, reject) => {
-    setTimeout(resolve, 100, 16)
-});
+function promiseAll(promises) {
+    return new Promise((resolve, reject) => {
+        const results = [(promises.length)];
+        let donePromises = 0;
 
-Promise.all([promise1, promise2, promise3])
-.then(values => { 
-    console.log('All are resolved', values);
-})
-.catch(error => {
-    console.log('At least one promise is rejected', error)
-})
+        for (let i = 0; i < promises.length; i++) {
+            promises[i]
+                .then((value) => {
+                    results[i] = value;
+                    donePromises++;
+
+                    if (donePromises === promises.length) {
+                        resolve(results);
+                    }
+                })
+                .catch((error) => {
+                    reject(error);
+                })
+        }
+    })
+}
+
+const promise1 = Promise.resolve(1);
+const promise2 = Promise.resolve(2);
+const promise3 = Promise.resolve(3);
+
+promiseAll([promise1, promise2, promise3])
+    .then(results => {
+        console.log("All promises resolved:", results); 
+    })
+    .catch(error => {
+        console.error("At least one promise rejected:", error);
+    });
