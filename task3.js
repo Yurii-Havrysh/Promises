@@ -1,14 +1,14 @@
 function func1() {
-    return Promise.resolve(1)
+    return new Promise((resolve, reject) => {
+        setTimeout(resolve, 200, 'first one')
+    })
 }
 function func2() {
-    return Promise.resolve(2)
-}
-function func3() {
-    return Promise.resolve(3)
+    return Promise.resolve('last one')
 }
 
-const arrayOfFunctions = [func1, func2, func3];
+
+const arrayOfFunctions = [func1, func2];
 
 function chainPromises(arrayOfFunctions) {
     let chain = Promise.resolve();

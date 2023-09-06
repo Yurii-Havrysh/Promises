@@ -1,9 +1,9 @@
-function callbackStyleFunction(value, callback) {
+function callbackFunc(x, y, callback) {
     setTimeout(() => {
-      if (value > 0) {
-        callback(null, value * 2);
+      if (x < 0 || y < 0) {
+        callback('Must be positive values');
       } else {
-        callback("Invalid value", null);
+        callback(null, x + y);
       }
     }, 1000);
   }
@@ -25,11 +25,11 @@ function promisify(f) {
     };
 }
 
-const promisedFunction = promisify(callbackStyleFunction);
-promisedFunction(3)
+const promiseFunc = promisify(callbackFunc);
+promiseFunc(8, 2)
     .then(result => {
-    console.log("Promised function result:", result); // Expected: 6
+    console.log("result:", result); 
 })
     .catch(error => {
-    console.error("Promised function error:", error);
+    console.error("error:", error);
 });
